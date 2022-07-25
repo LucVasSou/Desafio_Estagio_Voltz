@@ -11,7 +11,9 @@ export class Item {
 
   update(){
     this.sellIn -= 1
-    let decay = 1
+    this.updateQuality(1)
+  }
+  updateQuality(decay: number){
     if (this.sellIn < 0) {
       decay = decay * 2
     }
@@ -67,16 +69,7 @@ export class Valorizavel extends Item {
 export class Conjurado extends Item {
   update() {
     this.sellIn -= 1
-    let decay = 2
-    if (this.sellIn < 0) {
-      decay = decay * 2
-    }
-    let newQuality = this.quality - decay
-    if (newQuality >= 0) {
-      this.quality = newQuality
-    } else {
-      this.quality = 0
-    }
+    this.updateQuality(2)
   }
 }
 
@@ -94,25 +87,3 @@ export class GildedRose {
     return this.items
   }
 }
-
-function main() {
-  let gr = new GildedRose()
-
-  gr.items.push(new Item("+5 Dexterity Vest", 10, 20))
-  gr.items.push(new Item("Elixir of the Mongoose", 5, 7))
-  gr.items.push(new Valorizavel("Aged Brie", 2, 0))
-  gr.items.push(new Entrada("Backstage passes to a TAFKAL80ETC concert", 15, 20))
-  gr.items.push(new Lendario("Sulfuras, Hand of Ragnaros"))
-  gr.items.push(new Conjurado("Conjured Mana Cake", 3, 6))
-
-
-  for (let index = 0; index < 5; index++) {
-    gr.updateQuality()
-  }
-
-  for (let item of gr.items) {
-    console.log(item)
-  }
-}
-
-main()
